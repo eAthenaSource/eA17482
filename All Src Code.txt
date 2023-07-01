@@ -1,0 +1,175 @@
+if( (sce = sc->data[SC_DEVOTION]) && src && battle_getcurrentskill(src) != PA_PRESSURE )
+			{ // Check for Target change defenses
+				struct block_list *d_bl;
+
+				if( (sce = sc->data[SC_DEVOTION]) )
+				{
+					d_bl = map_id2bl(sce->val1);
+
+					if( d_bl && (
+						(d_bl->type == BL_MER && ((TBL_MER*)d_bl)->master && ((TBL_MER*)d_bl)->master->bl.id == target->id) ||
+						(d_bl->type == BL_PC && ((TBL_PC*)d_bl)->devotion[sce->val2] == target->id)
+						) && check_distance_bl(target, d_bl, sce->val3) )
+					{
+						clif_damage(d_bl, d_bl, gettick(), 0, 0, hp, 0, 0, 0);
+						status_fix_damage(NULL, d_bl, hp, 0);
+						return 0;
+					}
+
+					status_change_end(target, SC_DEVOTION, INVALID_TIMER);
+				}
+			}
+			
+unit_walktoxy(src, mbl->x+x, mbl->y+y, 2) ) {
+//clif_slide(src, src->x, src->y);
+//uncomment this if you want to remove MO_EXTREMITYFIST glitchy walking effect. [malufett]
+//clif_fixpos(src);		
+
+&& (!sc || !sc->data[ST_PRESERVE])
+
+val3 = 17*(val1+1); //Damage increase (+50 +50*lv%)
+
+case SC_REJECTSWORD:
+			val2 = 100*val1; //Reflect chance
+			
+clif_damage(src,src,tick, dmg.amotion,0,rdamage,dmg.div_>1?dmg.div_:1,4,0); // in aegis damage reflected is shown in single hit.
+
+	unsigned char buf[256];
+	struct status_change *sc;
+#if PACKETVER < 20071113
+	const int cmd = 0x2e1;
+#else
+	const int cmd = 0x8a;
+#endif
+
+	nullpo_ret(src);
+	nullpo_ret(dst);
+
+	type = clif_calc_delay(type,div,damage+damage2,ddelay);
+	sc = status_get_sc(dst);
+	if(sc && sc->count) {
+		if(sc->data[SC_HALLUCINATION]) {
+			if(damage) damage = damage*(sc->data[SC_HALLUCINATION]->val2) + rnd()%100;
+			if(damage2) damage2 = damage2*(sc->data[SC_HALLUCINATION]->val2) + rnd()%100;
+		}
+	}
+
+	WBUFW(buf,0)=cmd;
+	WBUFL(buf,2)=src->id;
+	WBUFL(buf,6)=dst->id;
+	WBUFL(buf,10)=tick;
+	WBUFL(buf,14)=sdelay;
+	WBUFL(buf,18)=ddelay;
+#if PACKETVER < 20071113
+	if (battle_config.hide_woe_damage && map_flag_gvg(src->m)) {
+		WBUFL(buf,22)=damage?div:0;
+		WBUFL(buf,29)=damage2?div:0;
+	} else {
+		WBUFL(buf,22)=damage;
+		WBUFL(buf,29)=damage2;
+	}
+	WBUFW(buf,26)=div;
+	WBUFB(buf,28)=type;
+#else
+	if (battle_config.hide_woe_damage && map_flag_gvg(src->m)) {
+		WBUFW(buf,22)=damage?div:0;
+		WBUFW(buf,27)=damage2?div:0;
+	} else {
+		WBUFW(buf,22)=min(damage, INT16_MAX);
+		WBUFW(buf,27)=damage2;
+	}
+	WBUFW(buf,24)=div;
+	WBUFB(buf,26)=type;
+#endif
+	if(disguised(dst)) {
+		clif_send(buf,packet_len(cmd),dst,AREA_WOS);
+		WBUFL(buf,6) = -dst->id;
+		clif_send(buf,packet_len(cmd),dst,SELF);
+	} else
+		clif_send(buf,packet_len(cmd),dst,AREA);
+
+	if(disguised(src)) {
+		WBUFL(buf,2) = -src->id;
+		if (disguised(dst))
+			WBUFL(buf,6) = dst->id;
+#if PACKETVER < 20071113
+		if(damage > 0) WBUFL(buf,22) = -1;
+		if(damage2 > 0) WBUFL(buf,29) = -1;
+#else
+		if(damage > 0) WBUFW(buf,22) = -1;
+		if(damage2 > 0) WBUFW(buf,27) = -1;
+#endif
+
+//#0x02C0
+	    0, -1,  0,  0,  0, 30, 30,  0,  0,  3,  0, 65,  4, 71, 10,  0,
+	   -1, -1, -1,  0, 29,  0,  6, -1, 10, 10,  3,  0, -1, 32,  6, 36,
+	   34,  0,  0,  0,  0,  0,  0,  0, -1, -1, -1, 13, 67, 59, 60,  8,
+	   10,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	   
+	   if ( (!skill_id) && tstatus->flee2 && rnd()%1000 < tstatus->flee2 )
+	{	//Check for Lucky Dodge
+		wd.type=0x0b;
+		wd.dmg_lv=ATK_LUCKY;
+		if (wd.div_ < 0) wd.div_*=-1;
+		return wd;
+	}
+	
+	#define MAX_ZENY 2000000000
+	
+	#ifndef PACKETVER
+	#define PACKETVER 20120410
+	//#define PACKETVER 20130320
+	//#define PACKETVER 20111116
+#endif
+
+#define MAX_LEVEL 1000
+
+switch (skill_id) { //Skill effect.
+		case WZ_METEOR:
+		//case MO_BODYRELOCATION:
+		case CR_CULTIVATION:
+		case HW_GANBANTEIN:
+		case LG_EARTHDRIVE:
+			break; //Effect is displayed on respective switch case.
+		default:
+
+		case MO_EXTREMITYFIST:
+			/*skillratio += 100*(7 + sstatus->sp/10);*/
+			skillratio += 100*(7 + min(sstatus->sp,6000)/10);
+			skillratio = min(500000,skillratio); //We stop at roughly 50k SP for overflow protection
+
+Clean Reflect
+
+if (flag & BF_SHORT) {//Bounces back part of the damage.
+		if ( (skill_get_inf2(skill_id)&INF2_TRAP) && sd && sd->bonus.short_weapon_damage_return ) {
+			rdamage += damage * sd->bonus.short_weapon_damage_return / 100;
+			if(rdamage < 1) rdamage = 1;
+		} else if( sc && sc->count ) {
+			if( sc->data[SC_REFLECTDAMAGE] && !(skill_get_inf2(skill_id)&INF2_TRAP)) {
+				if( rnd()%100 <= sc->data[SC_REFLECTDAMAGE]->val1*10 + 30 ){
+					max_damage = (int64)max_damage * status_get_lv(bl) / 100;
+					rdamage = (*dmg) * sc->data[SC_REFLECTDAMAGE]->val2 / 100;
+					if( --(sc->data[SC_REFLECTDAMAGE]->val3) < 1)
+						status_change_end(bl,SC_REFLECTDAMAGE,INVALID_TIMER);
+				}
+			} else {
+				if ( sc->data[SC_REFLECTSHIELD] && skill_id != WS_CARTTERMINATION ) {
+					rdamage += damage * sc->data[SC_REFLECTSHIELD]->val2 / 100;
+					if (rdamage < 1) rdamage = 1;
+				}
+
+				if(sc->data[SC_DEATHBOUND] && skill_id != WS_CARTTERMINATION && !(src->type == BL_MOB && is_boss(src)) ) {
+					uint8 dir = map_calc_dir(bl,src->x,src->y),
+					t_dir = unit_getdir(bl);
+
+					if( distance_bl(src,bl) <= 0 || !map_check_dir(dir,t_dir) ) {
+						int64 rd1 = 0;
+						rd1 = min(damage,status_get_max_hp(bl)) * sc->data[SC_DEATHBOUND]->val2 / 100; // Amplify damage.
+						*dmg = rd1 * 30 / 100; // Received damage = 30% of amplifly damage.
+						clif_skill_damage(src,bl,gettick(), status_get_amotion(src), 0, -30000, 1, RK_DEATHBOUND, sc->data[SC_DEATHBOUND]->val1,6);
+						status_change_end(bl,SC_DEATHBOUND,INVALID_TIMER);
+						rdamage += rd1 * 70 / 100; // Target receives 70% of the amplified damage. [Rytech]
+					}
+				}
+			}
+		}
